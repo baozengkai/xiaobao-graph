@@ -6,5 +6,5 @@ node("docker") {
     echo "PWD is $PWD"
 
     stage "Checkout"
-    git "http://192.168.84.20/bigdata/anyrobot-graph.git"
+    git "https://github.com/baozengkai/xiaobao-graph.git"
 }
