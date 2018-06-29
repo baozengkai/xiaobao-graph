@@ -24,5 +24,10 @@ node("docker") {
 
     sh "echo -e {\\\"major\\\":${ar_version_major}, \\\"minor\\\":${ar_version_minor}, \\\"revision\\\":${ar_version_revision}, \\\"build\\\":\\\"${env.BUILD_ID}\\\", \\\"buildDate\\\":\\\"`date \'+%Y-%m-%d\'`\\\"} > docker/version.json"
 
-	
+	stage "Prepare rainbow-ut env"
+	sh "docker stop rainbow-es  || echo"
+    sh "docker rm -f rainbow-es || echo"
+    sh "docker pull 192.168.84.23:5000/library/elasticsearch:dcos-5.0.2"
+    sh "docker run -itd --name rainbow-es --network host -e CLUSTER_NAME=pool -e NODE_NAME=es1 -e NODE_MASTER=true -e PUBLISH_HOST=127.0.0.1 -e HTTP_PORT=9200 -e TCP_PORT=9300 -e PING_UNICAST_HOSTS=127.0.0.1:9300 192.168.84.23:5000/library/elasticsearch:dcos-5.0.2"
+
 }

@@ -49,7 +49,13 @@ public class ElasticSourceProvider implements SourceProvider {
 
     @Loggable(logThis = true, trim = false)
     private String getSearchUrl() {
-        return this.dataSetUrl + "/" + String.join(",", this.dataSetIndex) + "/_search";
+        if (String.join(",", this.dataSetIndex).equals("-.*,*"))
+        {
+            String filterIndex = "*,-.*";
+            return this.dataSetUrl + "/" + filterIndex + "/_search";
+        }else{
+            return this.dataSetUrl + "/" + String.join(",", this.dataSetIndex) + "/_search";
+        }
     }
 
     @Loggable(logThis = true, trim = false)
