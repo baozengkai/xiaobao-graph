@@ -1,0 +1,73 @@
+{
+  "class": "com.eisoo.rainbow.elastic.ElasticSourceProvider",
+  "dataSet": {
+    "url": "http://192.168.84.226:9200",
+    "index": ["anyrobot-*"],
+    "query": {
+        "query_string": {
+          "query": "operation object type:\"file\"",
+          "analyze_wildcard": true
+        }
+      }
+    },
+  "graphSchema": {
+    "vertices": [
+      {
+        "id": "user",
+        "label": "USER",
+        "properties": ["user"]
+      },
+      {
+        "id": "operation object id",
+        "label": "DOC",
+        "properties": ["operation object id", "operation object", "parent path"]
+      },
+      {
+        "id": "after_operation object id",
+        "label": "DOC",
+        "properties": ["after_operation object id", "after_operation object", "parent path", "new parent path"]
+      }
+    ],
+    "edges": [
+      {
+        "id": "_id",
+        "label": "operation",
+        "properties": ["_id", "@timestamp", "geoip.city_name", "operation action", "operation status", "operation detail"],
+        "outVertex": {
+          "id": "user",
+          "label": "USER"
+        },
+        "inVertex": {
+          "id": "operation object id",
+          "label": "DOC"
+        }
+      },
+      {
+        "id": "_id",
+        "label": "after_operation",
+        "properties": ["_id", "@timestamp", "geoip.city_name", "operation action", "operation status", "operation detail", "operation object"],
+        "outVertex": {
+          "id": "user",
+          "label": "USER"
+        },
+        "inVertex": {
+          "id": "after_operation object id",
+          "label": "DOC"
+        }
+      },
+      {
+        "id": "_id",
+        "label": "be_operated_to",
+        "properties": ["_id", "@timestamp", "geoip.city_name", "operation action", "operation status", "operation detail", "user"],
+        "outVertex": {
+          "id": "operation object id",
+          "label": "DOC"
+        },
+        "inVertex": {
+          "id": "after_operation object id",
+          "label": "DOC"
+        }
+      }
+    ]
+  }
+}

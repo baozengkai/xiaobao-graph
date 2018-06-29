@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Class-Path: commons-lang-2.6.jar slf4j-log4j12-1.7.21.jar commons-logg
+ ing-1.2.jar snakeyaml-1.15.jar commons-codec-1.9.jar jcl-over-slf4j-1
+ .7.21.jar slf4j-api-1.7.21.jar hppc-0.7.1.jar httpclient-4.5.2.jar un
+ irest-java-1.4.9.jar gremlin-shaded-3.3.0.jar jmustache-1.13.jar jcab
+ i-log-0.14.jar log4j-1.2.17.jar commons-configuration-1.10.jar httpco
+ re-nio-4.4.4.jar httpcore-4.4.4.jar httpasyncclient-4.1.1.jar javatup
+ les-1.2.jar jcabi-manifests-1.1.jar commons-collections4-4.0.jar comm
+ ons-io-2.4.jar javapoet-1.8.0.jar json-20160212.jar httpmime-4.5.2.ja
+ r gremlin-core-3.3.0.jar
+Main-Class: Main
+

@@ -1,0 +1,15 @@
+{
+    "distinct_query": {
+        "terms": {
+			"field": {{{field}}},
+			"size": {{{size}}}
+		},
+		"aggs": {
+			"distinct_query_hits": {
+				"top_hits": {
+					"size": 1
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,6 @@
+.idea
+*.iml
+target
+*.pyc
+*.log
+__pycache__

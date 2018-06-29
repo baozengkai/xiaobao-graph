@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>rainbow</artifactId>
+        <groupId>com.eisoo</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>rainbow-ut</artifactId>
+
+
+    <!-- Add the JCenter Maven repository that is required by spock-reports -->
+    <repositories>
+        <repository>
+            <id>jcenter</id>
+            <name>JCenter Repo</name>
+            <url>http://jcenter.bintray.com</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+    <!--rainbow-ut依赖rainbow-core和rainbow-elastic-->
+        <dependency>
+            <groupId>com.eisoo</groupId>
+            <artifactId>rainbow-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.eisoo</groupId>
+            <artifactId>rainbow-elastic</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
+        </dependency>
+        <dependency>
+            <groupId>com.samskivert</groupId>
+            <artifactId>jmustache</artifactId>
+            <version>1.14</version>
+        </dependency>
+
+        <!-- Spock依赖库 -->
+        <dependency>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+            <version>1.1-groovy-2.4</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--Spock测试报告依赖库-->
+        <dependency>
+            <groupId>com.athaydes</groupId>
+            <artifactId>spock-reports</artifactId>
+            <version>1.4.0</version>
+            <scope>test</scope>
+            <!-- this avoids affecting your version of Groovy/Spock -->
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!--Spock依赖Junit-->
+        <dependency> <!-- use a specific JUnit version rather than the one specified by spock-core -->
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--Groovy依赖库-->
+        <dependency> <!-- use a specific Groovy version rather than the one specified by spock-core -->
+            <groupId>org.codehaus.groovy</groupId>
+            <artifactId>groovy-all</artifactId>
+            <version>2.4.13</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+    <plugins>
+        <!-- groovy的compile插件 -->
+        <plugin>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
+            <version>1.6</version>
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>addTestSources</goal>
+                        <goal>compileTests</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+        <!--测试插件surefire，输出目录设置到report文件中-->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <version>2.19.1</version>
+            <configuration>
+                <reportFormat>xml</reportFormat>
+                <reportsDirectory>${project.build.directory}/../../../report/ut_rainbow_results</reportsDirectory>
+            </configuration>
+        </plugin>
+
+        <!--覆盖率插件Jacoco，采用的是report-aggregate的命令方式，输出为html的报告形式-->
+        <plugin>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>report-aggreagte</id>
+                    <phase>test</phase>
+                    <goals>
+                        <goal>report-aggregate</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+
+    </plugins>
+    </build>
+</project>

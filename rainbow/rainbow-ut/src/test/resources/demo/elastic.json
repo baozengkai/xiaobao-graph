@@ -1,0 +1,73 @@
+{
+  "class": "com.eisoo.rainbow.elastic.ElasticSourceProvider",
+  "dataSet": {
+    "url": "http://192.168.84.227:9200",
+    "index": ["anyrobot-*"],
+    "query": {
+        "query_string": {
+          "query": "操作对象类型:\"文件\" AND NOT 操作对象类型:\"文件夹\"",
+          "analyze_wildcard": true
+        }
+      }
+    },
+  "graphSchema": {
+    "vertices": [
+      {
+        "id": "用户",
+        "label": "用户",
+        "properties": ["@timestamp", "用户"]
+      },
+      {
+        "id": "操作对象",
+        "label": "文档",
+        "properties": ["@timestamp", "操作对象", "父路径"]
+      },
+      {
+        "id": "操作后对象",
+        "label": "文档",
+        "properties": ["@timestamp", "操作后对象", "父路径", "目标路径"]
+      }
+    ],
+    "edges": [
+      {
+        "id": "_id",
+        "label": "操作",
+        "properties": ["_id", "@timestamp", "geoip.city_name", "操作动作", "操作状态", "操作详情"],
+        "outVertex": {
+          "id": "用户",
+          "label": "用户"
+        },
+        "inVertex": {
+          "id": "操作对象",
+          "label": "文档"
+        }
+      },
+      {
+        "id": "_id",
+        "label": "操作后",
+        "properties": ["_id", "@timestamp", "geoip.city_name", "操作动作", "操作状态", "操作详情", "操作对象"],
+        "outVertex": {
+          "id": "用户",
+          "label": "用户"
+        },
+        "inVertex": {
+          "id": "操作后对象",
+          "label": "文档"
+        }
+      },
+      {
+        "id": "_id",
+        "label": "被操作为",
+        "properties": ["_id", "@timestamp", "geoip.city_name", "操作动作", "操作状态", "操作详情", "用户"],
+        "outVertex": {
+          "id": "操作对象",
+          "label": "文档"
+        },
+        "inVertex": {
+          "id": "操作后对象",
+          "label": "文档"
+        }
+      }
+    ]
+  }
+}

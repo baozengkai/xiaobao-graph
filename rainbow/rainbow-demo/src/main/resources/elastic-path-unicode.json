@@ -1,0 +1,118 @@
+{
+  "class": "com.eisoo.rainbow.elastic.ElasticSourceProvider",
+  "dataSet": {
+    "url": "http://192.168.84.150:9200",
+    "index": ["rainbow-path-unicode"],
+    "query": {
+      "query_string": {
+        "query": "*",
+        "analyze_wildcard": true
+      }
+    }
+  },
+  "graphSchema": {
+    "vertices": [
+      {
+        "id": "系统账号",
+        "label": "系统账号",
+        "properties": [
+          "系统账号",
+          "@timestamp"
+        ]
+      },
+      {
+        "id": "操作前对象",
+        "label": "操作前对象",
+        "properties": [
+          "操作前对象",
+          "@timestamp"
+        ]
+      },
+      {
+        "id": "操作后对象",
+        "label": "操作后对象",
+        "properties": [
+          "操作后对象",
+          "@timestamp"
+        ]
+      }
+    ],
+    "edges": [
+      {
+        "id": "_id",
+        "label": "关系0",
+        "properties": [
+          "_id",
+          "@timestamp",
+          "操作动作"
+        ],
+        "outVertex": {
+          "id": "系统账号",
+          "label": "系统账号",
+          "properties": [
+            "系统账号",
+            "@timestamp"
+          ]
+        },
+        "inVertex": {
+          "id": "操作前对象",
+          "label": "操作前对象",
+          "properties": [
+            "操作前对象",
+            "@timestamp"
+          ]
+        }
+      },
+      {
+        "id": "_id",
+        "label": "关系1",
+        "properties": [
+          "_id",
+          "@timestamp",
+          "操作动作"
+        ],
+        "outVertex": {
+          "id": "系统账号",
+          "label": "系统账号",
+          "properties": [
+            "系统账号",
+            "@timestamp"
+          ]
+        },
+        "inVertex": {
+          "id": "操作后对象",
+          "label": "操作后对象",
+          "properties": [
+            "操作后对象",
+            "@timestamp"
+          ]
+        }
+      },
+      {
+        "id": "_id",
+        "label": "关系2",
+        "properties": [
+          "_id",
+          "@timestamp",
+          "操作动作"
+        ],
+        "outVertex": {
+          "id": "操作前对象",
+          "label": "操作前对象",
+          "properties": [
+            "操作前对象",
+            "@timestamp"
+          ]
+        },
+        "inVertex": {
+          "id": "操作后对象",
+          "label": "操作后对象",
+          "properties": [
+            "操作后对象",
+            "@timestamp"
+          ]
+        }
+      }
+    ]
+  }
+}
