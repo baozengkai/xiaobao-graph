@@ -1,0 +1,3 @@
+[run]
+source = /home/jenkins/workspace/anyrobot-graph/graph_server/
+omit = */tests/*,test_*,*_gen_py*,*__init__*,/usr*,*/res/*

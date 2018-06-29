@@ -1,0 +1,25 @@
+[MASTER]
+init-hook=
+jobs=8
+
+[MESSAGES CONTROL]
+disable=R0201,E0602,I0011
+
+[BASIC]
+good-names= i,j,f,k,ex,_,L,ip
+bad-names= l,o
+
+[FORMAT]
+max-line-length=100
+indent-string='    '
+
+[VARIABLES]
+additional-builtins=_
+
+[DESIGN]
+max-attributes=20
+min-public-methods=1
+max-public-methods=100
+
+[EXCEPTIONS]
+overgeneral-exceptions=
