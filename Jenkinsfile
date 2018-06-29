@@ -55,7 +55,6 @@ node("docker") {
     stage 'Graph Server UT & Pylint'
     sh "docker pull 192.168.84.23:5000/library/anyrobot-graph-baseimage:dev"
     withDockerContainer(args: "-v /home/jenkins/workspace:/home/jenkins/workspace -v /anyrobot:/anyrobot -e WORKSPACE=${WORKSPACE} ", image: "192.168.84.23:5000/library/anyrobot-graph-baseimage:dev") {
-        sh "mkdir -p $WORKSPACE/report"
         sh "cd $WORKSPACE"
         int exitCode = sh script: 'pylint $WORKSPACE/graph_server/* --output-format=parseable > $WORKSPACE/report/pylint.xml', returnStatus: true
 
