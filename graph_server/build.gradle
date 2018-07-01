@@ -27,6 +27,13 @@ apply plugin:"asset-pipeline"
 apply plugin:"org.grails.grails-gsp"
 
 apply plugin: "net.saliman.cobertura"
+cobertura{
+    coverageFormats = ['xml']
+
+    coverageExcludes = ['.*Application.*',
+                        '.*BootStrap.*',
+                        '.*UrlMappings.*']
+}
 
 apply plugin:"codenarc"
 codenarc{
