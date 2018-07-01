@@ -33,19 +33,16 @@ node("docker") {
 	
 	stage "Build rainbow"
     sh "docker volume create --name maven-repo"
+	sh "docker volume create --name gradle-repo"
     sh "docker pull 192.168.84.23:5000/library/anyrobot-graph-baseimage:dev"
-    withDockerContainer(args: "--name build-rainbow -v maven-repo:/root/.m2", image: "192.168.84.23:5000/library/anyrobot-graph-baseimage:dev") {
+    withDockerContainer(args: "--name build-rainbow -v gradle-repo:/root/.gradle -v maven-repo:/root/.m2", image: "192.168.84.23:5000/library/anyrobot-graph-baseimage:dev") {
         echo "WORKSPACE is $WORKSPACE"
         sh "./is_es_start.sh"
         sh "curl -X PUT 192.168.84.30:9200/_template/graph-es -d @template"
         sh "cd $WORKSPACE/rainbow && mvn clean install && mkdir -p $WORKSPACE/report/codestyle_rainbow_results/ && cp ./target/checkstyle-result.xml $WORKSPACE/report/codestyle_rainbow_results/"
         sh "cd $WORKSPACE/report && tar -cvf ut_rainbow_coverage.tar ./ut_rainbow_coverage/"
+		
+		sh "cd $WORKSPACE/graph_server && gralde check"
     }
-	
-	stage "Clear rainbow-ut env"
-    sh "docker stop rainbow-es"
-    sh "docker rm -f rainbow-es"
-
-
 
 }
