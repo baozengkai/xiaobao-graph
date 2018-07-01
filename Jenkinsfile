@@ -42,7 +42,7 @@ node("docker") {
         sh "cd $WORKSPACE/rainbow && mvn clean install && mkdir -p $WORKSPACE/report/codestyle_rainbow_results/ && cp ./target/checkstyle-result.xml $WORKSPACE/report/codestyle_rainbow_results/"
         sh "cd $WORKSPACE/report && tar -cvf ut_rainbow_coverage.tar ./ut_rainbow_coverage/"
 		
-		sh "cd $WORKSPACE/graph_server && gradle clean check && cp ./build/reports/codenarc/main.html $WORKSPACE/report/codestyle_graph_results/"
+		sh "cd $WORKSPACE/graph_server && gradle clean check && cp ./build/reports/codenarc/main.html $WORKSPACE/report/codestyle_graph_results/ && cp ./build/test-results/test/TEST-graph_server.GraphServiceSpec.xml $WORKSPACE/report/ut_graph_results/"
     }
 
 }
