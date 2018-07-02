@@ -31,7 +31,7 @@ node("docker") {
     sh "docker run -itd --name rainbow-es --network host -e CLUSTER_NAME=pool -e NODE_NAME=es1 -e NODE_MASTER=true -e PUBLISH_HOST=127.0.0.1 -e HTTP_PORT=9200 -e TCP_PORT=9300 -e PING_UNICAST_HOSTS=127.0.0.1:9300 192.168.84.23:5000/library/elasticsearch:dcos-5.0.2"
 
 	
-	stage "Build rainbow"
+	stage "Build rainbow-ut and graph-ut"
     sh "docker volume create --name maven-repo"
 	sh "docker volume create --name gradle-repo"
     sh "docker pull 192.168.84.23:5000/library/anyrobot-graph-baseimage:dev"
@@ -45,5 +45,18 @@ node("docker") {
 		sh "cd $WORKSPACE/graph_server && gradle clean check && cp ./build/reports/codenarc/main.html $WORKSPACE/report/codestyle_graph_results/ && cp ./build/test-results/test/TEST-graph_server.GraphServiceSpec.xml $WORKSPACE/report/ut_graph_results/"
 		sh "cd $WORKSPACE/graph_server && gradle clean cobertura && cp ./build/reports/cobertura/coverage.xml $WORKSPACE/report/ut_graph_coverage/ "
    }
+   
+	stage "Clear rainbow-ut and graph-ut env"
+    sh "docker stop rainbow-es"
+    sh "docker rm -f rainbow-es"
+	
+	stage 'Build Image'
+	sh "rm -rf ./graph_server/build "
+    sh "cp -rf ./graph_server ./gradle-repo ./docker/"
+    sh "docker build --no-cache -t 192.168.84.23:5000/build/anyrobot-graph:${ar_version_full} ./docker"
+    sh "docker tag 192.168.84.23:5000/build/anyrobot-graph:${ar_version_full} 192.168.84.23:5000/library/anyrobot-graph:${ar_version}"
 
+    stage 'Save Image'
+    sh "docker save -o /store/anyrobot-graph/anyrobot-graph-image-${ar_version}.tar 192.168.84.23:5000/library/anyrobot-graph:${ar_version}"
+	
 }
