@@ -35,7 +35,7 @@ node("docker") {
     sh "docker volume create --name maven-repo"
 	sh "docker volume create --name gradle-repo"
     sh "docker pull 192.168.84.23:5000/library/anyrobot-graph-baseimage:dev"
-    withDockerContainer(args: "--name build-rainbow -u root:root -v gradle-repo:/root/.gradle -v maven-repo:/root/.m2", image: "192.168.84.23:5000/library/anyrobot-graph-baseimage:dev") {
+    withDockerContainer(args: "--name build-rainbow -v gradle-repo:/root/.gradle -v maven-repo:/root/.m2", image: "192.168.84.23:5000/library/anyrobot-graph-baseimage:dev") {
         echo "WORKSPACE is $WORKSPACE"
         sh "./is_es_start.sh"
         sh "curl -X PUT 192.168.84.30:9200/_template/graph-es -d @template"
