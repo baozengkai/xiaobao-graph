@@ -10,7 +10,7 @@ COPY version /bin/
 COPY graph_server /anyrobot/graph/graph_server
 
 #拷贝 gradle-repo
-COPY gradle-repo /anyrbot/graph/gradle-repo
+COPY gradle-repo /root/.gradle
 
 # 设置工作目录
 WORKDIR /anyrobot/graph/graph_server
